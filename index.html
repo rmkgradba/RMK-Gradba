@@ -12,8 +12,8 @@
       background-size: cover;
       font-family: Arial, sans-serif;
       color: #333;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     header {
@@ -135,8 +135,6 @@
       font-size: 14px;
     }
 
-    footer { text-align: center; background-color: #1d3557; color: white; padding: 20px; margin-top: 10px; }
-
     /* Gallery */
     #gallery { max-width: 1000px; margin: 20px auto; text-align: left; }
     .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; justify-items: center; }
@@ -256,7 +254,7 @@
       <a href="#about">About Us</a>
       <a href="#services">Services</a>
       <a href="#gallery">Gallery</a>
-      <a href="company-profile.html">Company Profile</a>
+      <a href="#company-profile">Company Profile</a>
       <a href="#contact">Contact</a>
     </nav>
 
@@ -272,7 +270,7 @@
       <a href="#about">About Us</a>
       <a href="#services">Services</a>
       <a href="#gallery">Gallery</a>
-      <a href="company-profile.html" target="_blank" rel="noopener">Company Profile</a>
+      <a href="#company-profile">Company Profile</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -352,168 +350,192 @@
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Ready to start your next project with RMK Gradba? Get in touch with us today!</p>
-    <p>Email: <a href="mailto:rmkgradba@yahoo.com">rmkgradba@yahoo.com</a></p>
-    <p>Phone: +389 78 233 925</p>
-    <p>Location: Skopje, North Macedonia</p>
+  <!-- NEW Company Profile Section Embedded -->
+  <section id="company-profile">
+    <h2>Core Services and Capabilities</h2>
+    <p>RMK Gradba specializes in a broad range of low-rise construction services tailored to meet diverse infrastructure needs. Our key capabilities include:</p>
+    <ul>
+      <li>Design and installation of stormwater drainage and sanitary sewage systems.</li>
+      <li>High-quality concrete block paving for streets and sidewalks.</li>
+      <li>Comprehensive street construction and asphalt paving.</li>
+      <li>Installation and maintenance of water supply networks.</li>
+      <li>Additional civil works such as sidewalks, curbs, and retaining walls.</li>
+      <li>Project management ensuring timely and efficient execution.</li>
+    </ul>
+
+    <h2>Key Projects Executed</h2>
+    <ul>
+      <li><strong>Urban Drainage Upgrade - Skopje</strong>: Designed and installed a stormwater drainage system covering 5 km of urban streets.</li>
+      <li><strong>Residential Sewer Network - Ohrid</strong>: Constructed and maintained sanitary sewage pipelines serving 500+ households.</li>
+      <li><strong>Concrete Block Paving - Tetovo City Center</strong>: Delivered over 10,000 sqm of durable paving enhancing pedestrian zones.</li>
+      <li><strong>Main Street Reconstruction - Bitola</strong>: Full street reconstruction including excavation and asphalt paving over 2 km.</li>
+    </ul>
+
+    <h2>Documentation of Engineering and Execution Capacities</h2>
+    <p>RMK Gradba holds the following certifications and documentation:</p>
+    <ul>
+      <li>ISO 9001:2015 Certification.</li>
+      <li>Licensed engineering professionals.</li>
+      <li>State-of-the-art machinery.</li>
+      <li>Project management methodologies.</li>
+      <li>Safety and environmental compliance.</li>
+    </ul>
   </section>
 
-  <footer>
-    <p>&copy; 2025 RMK Gradba. All rights reserved.</p>
-  </footer>
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: info@rmkgradba.com</p>
+    <p>Phone: +389 70 123 456</p>
+    <p>Address: Skopje, North Macedonia</p>
+  </section>
 
-  <!-- Modal -->
+  <!-- Modal for Gallery -->
   <div id="modal">
-    <span id="modal-close" onclick="closeModal()">&times;</span>
-    <img id="modal-content" src="" alt="Expanded Image" />
+    <span id="modal-close" aria-label="Close modal">&times;</span>
+    <img id="modal-content" alt="" />
     <div id="modal-caption"></div>
-    <a class="modal-arrow" id="modal-prev" onclick="changeImage(-1)">&#10094;</a>
-    <a class="modal-arrow" id="modal-next" onclick="changeImage(1)">&#10095;</a>
+    <span id="modal-prev" class="modal-arrow" aria-label="Previous image">&#10094;</span>
+    <span id="modal-next" class="modal-arrow" aria-label="Next image">&#10095;</span>
   </div>
 
-  <script>
-    /* ----------------- Data ----------------- */
-    const servicesData = {
-      stormwater: {
-        title: "Stormwater Drainage Systems",
-        text: "We design and install advanced stormwater drainage systems to effectively manage rainwater and reduce the risk of flooding in urban and rural areas.",
-        images: ["stormwater1.jpg", "stormwater2.jpg"]
-      },
-      sanitary: {
-        title: "Sanitary Sewage Systems",
-        text: "Our team constructs and repairs sanitary sewer networks, ensuring hygienic and efficient wastewater management for residential and commercial clients.",
-        images: ["sanitary1.jpg", "sanitary2.jpg"]
-      },
-      concrete: {
-        title: "Concrete Block Paving",
-        text: "We offer expert installation of durable and aesthetic concrete block pavements ideal for streets, sidewalks, and public spaces.",
-        images: ["concrete1.jpg", "concrete2.jpg"]
-      },
-      street: {
-        title: "Street Construction & Asphalt",
-        text: "Complete street construction services including excavation, base preparation, and high-quality asphalt paving to meet all infrastructure needs.",
-        images: ["street1.jpg", "street2.jpg"]
-      },
-      water: {
-        title: "Water Supply Networks",
-        text: "Installation of reliable water supply systems designed for efficiency and durability, ensuring a continuous and clean water flow.",
-        images: ["water1.jpg", "water2.jpg"]
-      },
-      other: {
-        title: "Other Low-Rise Works",
-        text: "Additional civil engineering services such as sidewalks, curbs, retaining walls, and other essential infrastructure projects.",
-        images: ["other1.jpg", "other2.jpg"]
-      }
-    };
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  const overlay = document.getElementById('overlay');
 
-    /* -------- Service detail handling -------- */
-    function showService(key) {
-      const detailSection = document.getElementById('service-detail');
-      const title = document.getElementById('detail-title');
-      const text = document.getElementById('detail-text');
-      const imagesDiv = document.getElementById('detail-images');
+  menuToggle.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+    menuToggle.setAttribute('aria-expanded', !expanded);
+    menuToggle.classList.toggle('open');
+    mobileNav.classList.toggle('show');
+    overlay.classList.toggle('show');
+  });
 
-      const service = servicesData[key];
-      if (!service) return;
+  overlay.addEventListener('click', () => {
+    menuToggle.setAttribute('aria-expanded', false);
+    menuToggle.classList.remove('open');
+    mobileNav.classList.remove('show');
+    overlay.classList.remove('show');
+  });
 
-      title.textContent = service.title;
-      text.textContent = service.text;
-
-      // Clear previous images
-      imagesDiv.innerHTML = '';
-      service.images.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = service.title;
-        imagesDiv.appendChild(img);
-      });
-
-      detailSection.style.display = 'block';
-      detailSection.scrollIntoView({behavior: "smooth"});
+  // Service details data
+  const services = {
+    stormwater: {
+      title: "Stormwater Drainage Systems",
+      text: "We design and install efficient stormwater drainage systems to effectively manage rainwater, prevent flooding, and protect urban infrastructure.",
+      images: ["stormwater1.jpg", "stormwater2.jpg"]
+    },
+    sanitary: {
+      title: "Sanitary Sewage Systems",
+      text: "Our team constructs and repairs sanitary sewer lines to ensure safe and reliable wastewater management for residential and commercial clients.",
+      images: ["sanitary1.jpg", "sanitary2.jpg"]
+    },
+    concrete: {
+      title: "Concrete Block Paving",
+      text: "We provide high-quality concrete block paving services for streets and sidewalks, enhancing durability and aesthetics.",
+      images: ["concrete1.jpg", "concrete2.jpg"]
+    },
+    street: {
+      title: "Street Construction & Asphalt",
+      text: "Complete street construction services including excavation, base preparation, and expert asphalt paving for long-lasting roads.",
+      images: ["street1.jpg", "street2.jpg"]
+    },
+    water: {
+      title: "Water Supply Networks",
+      text: "Installation and maintenance of reliable water supply systems tailored for urban and rural developments.",
+      images: ["water1.jpg", "water2.jpg"]
+    },
+    other: {
+      title: "Other Low-Rise Works",
+      text: "Additional civil works including sidewalks, curbs, retaining walls, and related infrastructure projects.",
+      images: ["other1.jpg", "other2.jpg"]
     }
+  };
 
-    function closeDetail() {
-      document.getElementById('service-detail').style.display = 'none';
-    }
+  function showService(key) {
+    const detail = document.getElementById("service-detail");
+    const titleEl = document.getElementById("detail-title");
+    const textEl = document.getElementById("detail-text");
+    const imagesEl = document.getElementById("detail-images");
 
-    /* -------- Modal gallery -------- */
-    const galleryImages = document.querySelectorAll('.gallery-container img');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modal-content');
-    const modalCaption = document.getElementById('modal-caption');
-    const modalClose = document.getElementById('modal-close');
-    const modalPrev = document.getElementById('modal-prev');
-    const modalNext = document.getElementById('modal-next');
+    const service = services[key];
+    if (!service) return;
 
-    let currentIndex = 0;
+    titleEl.textContent = service.title;
+    textEl.textContent = service.text;
 
-    function openModal(index) {
-      currentIndex = index;
-      modal.style.display = 'block';
-      updateModal();
-      document.body.style.overflow = 'hidden'; // prevent background scroll
-    }
+    imagesEl.innerHTML = "";
+    service.images.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = service.title;
+      imagesEl.appendChild(img);
+    });
 
-    function closeModal() {
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
+    detail.style.display = "block";
+    detail.scrollIntoView({behavior: "smooth"});
+  }
 
-    function updateModal() {
-      const img = galleryImages[currentIndex];
-      modalImg.src = img.src;
-      modalImg.alt = img.alt;
-      modalCaption.textContent = img.alt;
-    }
+  function closeDetail() {
+    document.getElementById("service-detail").style.display = "none";
+  }
 
-    function changeImage(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = galleryImages.length -1;
-      else if (currentIndex >= galleryImages.length) currentIndex = 0;
-      updateModal();
-    }
+  // Gallery modal
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-content");
+  const modalCaption = document.getElementById("modal-caption");
+  const modalClose = document.getElementById("modal-close");
+  const modalPrev = document.getElementById("modal-prev");
+  const modalNext = document.getElementById("modal-next");
+  const galleryImages = document.querySelectorAll(".gallery-container img");
 
-    // Close modal on clicking outside image
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal || e.target === modalClose) {
+  let currentIndex = 0;
+
+  function openModal(index) {
+    currentIndex = index;
+    showModalImage(currentIndex);
+    modal.style.display = "block";
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = 'auto';
+  }
+
+  function showModalImage(index) {
+    if (index < 0) currentIndex = galleryImages.length - 1;
+    else if (index >= galleryImages.length) currentIndex = 0;
+    else currentIndex = index;
+
+    const img = galleryImages[currentIndex];
+    modalImg.src = img.src;
+    modalCaption.textContent = img.alt;
+  }
+
+  modalClose.onclick = closeModal;
+
+  modalPrev.onclick = () => { showModalImage(currentIndex - 1); }
+  modalNext.onclick = () => { showModalImage(currentIndex + 1); }
+
+  window.onclick = event => {
+    if (event.target === modal) closeModal();
+  };
+
+  // Keyboard navigation for gallery modal
+  window.addEventListener('keydown', e => {
+    if (modal.style.display === "block") {
+      if (e.key === "ArrowLeft") {
+        showModalImage(currentIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        showModalImage(currentIndex + 1);
+      } else if (e.key === "Escape") {
         closeModal();
       }
-    });
-
-    // Keyboard navigation for modal
-    document.addEventListener('keydown', (e) => {
-      if (modal.style.display === 'block') {
-        if (e.key === 'ArrowRight') changeImage(1);
-        else if (e.key === 'ArrowLeft') changeImage(-1);
-        else if (e.key === 'Escape') closeModal();
-      }
-    });
-
-    /* -------- Mobile menu toggle -------- */
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    const overlay = document.getElementById('overlay');
-
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      menuToggle.classList.toggle('open');
-      mobileNav.classList.toggle('show');
-      mobileNav.setAttribute('aria-hidden', expanded);
-      overlay.classList.toggle('show');
-    });
-
-    overlay.addEventListener('click', () => {
-      menuToggle.setAttribute('aria-expanded', false);
-      menuToggle.classList.remove('open');
-      mobileNav.classList.remove('show');
-      mobileNav.setAttribute('aria-hidden', true);
-      overlay.classList.remove('show');
-    });
-
-  </script>
+    }
+  });
+</script>
 
 </body>
 </html>
