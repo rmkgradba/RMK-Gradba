@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RMK Gradba | Low-Rise Construction</title>
+  <style>
+    /* -------- Base / Layout -------- */
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body {
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: #333;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    header {
+      background: transparent;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      color: white;
+    }
+
+    .logo {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-text h1 {
+      font-size: 48px;
+      margin: 6px 0 4px;
+      line-height: 1;
+    }
+
+    .header-text p {
+      font-size: 18px;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    /* Desktop nav (visible on wider screens) */
+    #desktop-nav {
+      margin-top: 20px;
+      text-align: center;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #desktop-nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    /* Content sections */
+    section {
+      padding: 40px;
+      max-width: 1000px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      text-align: left;
+    }
+
+    h2 {
+      color: #1d3557;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .service-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.25s ease, transform 0.15s ease;
+    }
+
+    .service-box:hover { transform: translateY(-4px); box-shadow: 0 6px 22px rgba(29,53,87,0.12); }
+
+    .service-box h3 { margin-top: 0; color: #1d3557; }
+
+    .view-button {
+      margin-top: 12px;
+      padding: 10px 18px;
+      background-color: #1d3557;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.25s ease, transform 0.15s ease;
+    }
+
+    .view-button:active { transform: translateY(1px); }
+
+    #service-detail {
+      margin-top: 24px;
+      background: white;
+      padding: 22px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    #detail-images { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+    #detail-images img { width: 48%; height: auto; border-radius: 5px; box-shadow: 0 0 8px rgba(0,0,0,0.06); object-fit: cover; }
+
+    #close-detail {
+      margin-top: 16px;
+      display: inline-block;
+      padding: 8px 14px;
+      background-color: #1d3557;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    footer { text-align: center; background-color: #1d3557; color: white; padding: 20px; margin-top: 10px; }
+
+    /* Gallery */
+    #gallery { max-width: 1000px; margin: 20px auto; text-align: left; }
+    .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; justify-items: center; }
+    .gallery-container img { width: 100%; max-width: 150px; cursor: pointer; border-radius: 5px; box-shadow: 0 0 6px rgba(0,0,0,0.12); transition: transform 0.25s ease; }
+    .gallery-container img:hover { transform: scale(1.05); box-shadow: 0 6px 18px rgba(29,53,87,0.14); }
+
+    /* Modal */
+    #modal { display: none; position: fixed; z-index: 9999; padding-top: 60px; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; background-color: rgba(0,0,0,0.9); }
+    #modal-content { margin: auto; display: block; max-width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 0 18px black; }
+    #modal-caption { margin: 14px auto 0 auto; width: 90%; max-width: 900px; color: #ddd; text-align: center; font-size: 18px; }
+    #modal-close { position: absolute; top: 18px; right: 28px; color: #f1f1f1; font-size: 42px; font-weight: bold; cursor: pointer; user-select: none; }
+    .modal-arrow { position: absolute; top: 50%; color: white; font-size: 44px; font-weight: bold; cursor: pointer; user-select: none; padding: 0 14px; border-radius: 3px; background-color: rgba(0,0,0,0.3); transform: translateY(-50%); transition: background-color 0.2s ease; }
+    .modal-arrow:hover { background-color: rgba(0,0,0,0.6); }
+    #modal-prev { left: 12px; }
+    #modal-next { right: 12px; }
+
+    /* -------- Mobile / Responsive -------- */
+    @media (max-width: 768px) {
+      header { padding: 20px 12px; }
+      .logo { width: 180px; margin-bottom: 8px; }
+      .header-text h1 { font-size: 32px; }
+      .header-text p { font-size: 15px; }
+
+      /* Hide desktop nav on mobile */
+      #desktop-nav { display: none; }
+
+      section { padding: 18px 14px; margin: 12px; }
+      h2 { font-size: 22px; text-align: center; }
+      .services { grid-template-columns: 1fr; gap: 18px; }
+      .view-button { width: 100%; font-size: 14px; }
+
+      #detail-images { flex-direction: column; }
+      #detail-images img { width: 100% !important; margin-bottom: 10px; }
+
+      .gallery-container { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+      .gallery-container img { max-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 { font-size: 26px; }
+      .header-text p { font-size: 14px; }
+      h2 { font-size: 20px; }
+      section p { font-size: 14px; }
+      .view-button { font-size: 13px; padding: 8px; }
+    }
+
+    /* -------- Hamburger / Mobile Menu -------- */
+    .menu-toggle {
+      display: none; /* shown via media query */
+      width: 34px;
+      height: 24px;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      z-index: 1003;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .menu-toggle span { background: white; display: block; height: 3px; margin: 5px 0; border-radius: 2px; transition: transform 0.28s ease, opacity 0.28s ease; }
+
+    /* mobile-nav (dropdown) */
+    #mobile-nav {
+      display: none;
+      overflow: hidden;
+      max-height: 0;
+      flex-direction: column;
+      background: rgba(0,0,0,0.92);
+      position: absolute;
+      top: 68px;
+      right: 20px;
+      padding: 0;
+      border-radius: 8px;
+      width: 220px;
+      text-align: center;
+      z-index: 1002;
+      transition: max-height 0.32s ease, padding 0.32s ease;
+    }
+
+    #mobile-nav a { display: block; padding: 12px; margin: 6px 8px; background: transparent; color: white; border-radius: 6px; text-decoration: none; }
+    #mobile-nav a:hover { background: rgba(255,255,255,0.06); }
+
+    #mobile-nav.show { max-height: 480px; padding: 10px; }
+
+    /* animate into X */
+    .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* overlay when menu is open */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.45);
+      z-index: 1001;
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+    #overlay.show { display: block; opacity: 1; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="RMK Gradba Logo" class="logo" />
+    <div class="header-text">
+      <h1>RMK Gradba</h1>
+      <p>Experts in Low-Rise Construction</p>
+    </div>
+
+    <!-- Desktop nav -->
+    <nav id="desktop-nav">
+      <a href="#about">About Us</a>
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="company-profile.html">Company Profile</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Hamburger (mobile) -->
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Mobile dropdown nav -->
+    <nav id="mobile-nav" aria-hidden="true">
+      <a href="#about">About Us</a>
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="company-profile.html" target="_blank" rel="noopener">Company Profile</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Overlay used when mobile menu is open -->
+  <div id="overlay"></div>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>
+      RMK Gradba is a professional construction company with extensive experience in low-rise infrastructure projects.
+      We specialize in the construction and maintenance of public and private infrastructure, delivering reliable and high-quality services across the region. With over 20 years of experience, our company has successfully completed more than 200 projects. Our highly qualified team of engineers, workers, and modern machinery enables us to execute projects of all scales quickly and efficiently.
+    </p>
+  </section>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="service-box">
+        <h3>Stormwater Drainage Systems</h3>
+        <p>Design and installation of efficient drainage systems to manage rainwater and prevent flooding.</p>
+        <button class="view-button" onclick="showService('stormwater')">View More</button>
+      </div>
+      <div class="service-box">
+        <h3>Sanitary Sewage Systems</h3>
+        <p>Construction and repair of sanitary sewer lines for residential, commercial, and municipal use.</p>
+        <button class="view-button" onclick="showService('sanitary')">View More</button>
+      </div>
+      <div class="service-box">
+        <h3>Concrete Block Paving</h3>
+        <p>Street paving with high-quality concrete blocks for long-lasting and aesthetic urban design.</p>
+        <button class="view-button" onclick="showService('concrete')">View More</button>
+      </div>
+      <div class="service-box">
+        <h3>Street Construction & Asphalt</h3>
+        <p>Complete street construction including excavation, base prep, and professional asphalt paving.</p>
+        <button class="view-button" onclick="showService('street')">View More</button>
+      </div>
+      <div class="service-box">
+        <h3>Water Supply Networks</h3>
+        <p>Installation of reliable water distribution systems for urban and rural developments.</p>
+        <button class="view-button" onclick="showService('water')">View More</button>
+      </div>
+      <div class="service-box">
+        <h3>Other Low-Rise Works</h3>
+        <p>Comprehensive civil works including sidewalks, curbs, retaining walls, and related infrastructure.</p>
+        <button class="view-button" onclick="showService('other')">View More</button>
+      </div>
+    </div>
+
+    <div id="service-detail">
+      <h3 id="detail-title"></h3>
+      <p id="detail-text"></p>
+      <div id="detail-images"></div>
+      <button id="close-detail" onclick="closeDetail()">Close</button>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-container">
+      <img src="gallery1.jpg" alt="Gallery Image 1" onclick="openModal(0)" />
+      <img src="gallery2.jpg" alt="Gallery Image 2" onclick="openModal(1)" />
+      <img src="gallery3.jpg" alt="Gallery Image 3" onclick="openModal(2)" />
+      <img src="gallery4.jpg" alt="Gallery Image 4" onclick="openModal(3)" />
+      <img src="gallery5.jpg" alt="Gallery Image 5" onclick="openModal(4)" />
+      <img src="gallery6.jpg" alt="Gallery Image 6" onclick="openModal(5)" />
+      <img src="gallery7.jpg" alt="Gallery Image 7" onclick="openModal(6)" />
+      <img src="gallery8.jpg" alt="Gallery Image 8" onclick="openModal(7)" />
+      <img src="gallery9.jpg" alt="Gallery Image 9" onclick="openModal(8)" />
+      <img src="gallery10.jpg" alt="Gallery Image 10" onclick="openModal(9)" />
+      <img src="gallery11.jpg" alt="Gallery Image 11" onclick="openModal(10)" />
+      <img src="gallery12.jpg" alt="Gallery Image 12" onclick="openModal(11)" />
+      <img src="gallery13.jpg" alt="Gallery Image 13" onclick="openModal(12)" />
+      <img src="gallery14.jpg" alt="Gallery Image 14" onclick="openModal(13)" />
+      <img src="gallery15.jpg" alt="Gallery Image 15" onclick="openModal(14)" />
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Ready to start your next project with RMK Gradba? Get in touch with us today!</p>
+    <p>Email: <a href="mailto:rmkgradba@yahoo.com">rmkgradba@yahoo.com</a></p>
+    <p>Phone: +389 78 233 925</p>
+    <p>Location: Skopje, North Macedonia</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 RMK Gradba. All rights reserved.</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal">
+    <span id="modal-close" onclick="closeModal()">&times;</span>
+    <img id="modal-content" src="" alt="Expanded Image" />
+    <div id="modal-caption"></div>
+    <a class="modal-arrow" id="modal-prev" onclick="changeImage(-1)">&#10094;</a>
+    <a class="modal-arrow" id="modal-next" onclick="changeImage(1)">&#10095;</a>
+  </div>
+
+  <script>
+    /* ----------------- Data ----------------- */
+    const servicesData = {
+      stormwater: {
+        title: "Stormwater Drainage Systems",
+        text: "We design and install advanced stormwater drainage systems to effectively manage rainwater and reduce the risk of flooding in urban and rural areas.",
+        images: ["stormwater1.jpg", "stormwater2.jpg"]
+      },
+      sanitary: {
+        title: "Sanitary Sewage Systems",
+        text: "Our team constructs and repairs sanitary sewer networks, ensuring hygienic and efficient wastewater management for residential and commercial clients.",
+        images: ["sanitary1.jpg", "sanitary2.jpg"]
+      },
+      concrete: {
+        title: "Concrete Block Paving",
+        text: "We offer expert installation of durable and aesthetic concrete block pavements ideal for streets, sidewalks, and public spaces.",
+        images: ["concrete1.jpg", "concrete2.jpg"]
+      },
+      street: {
+        title: "Street Construction & Asphalt",
+        text: "Complete street construction services including excavation, base preparation, and high-quality asphalt paving to meet all infrastructure needs.",
+        images: ["street1.jpg", "street2.jpg"]
+      },
+      water: {
+        title: "Water Supply Networks",
+        text: "Installation of reliable water supply systems designed for efficiency and durability, ensuring a continuous and clean water flow.",
+        images: ["water1.jpg", "water2.jpg"]
+      },
+      other: {
+        title: "Other Low-Rise Works",
+        text: "Additional civil engineering services such as sidewalks, curbs, retaining walls, and other essential infrastructure projects.",
+        images: ["other1.jpg", "other2.jpg"]
+      }
+    };
+
+    /* -------- Service detail handling -------- */
+    function showService(key) {
+      const detailSection = document.getElementById('service-detail');
+      const title = document.getElementById('detail-title');
+      const text = document.getElementById('detail-text');
+      const imagesDiv = document.getElementById('detail-images');
+
+      const service = servicesData[key];
+      if (!service) return;
+
+      title.textContent = service.title;
+      text.textContent = service.text;
+
+      // Clear previous images
+      imagesDiv.innerHTML = '';
+      service.images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = service.title;
+        imagesDiv.appendChild(img);
+      });
+
+      detailSection.style.display = 'block';
+      detailSection.scrollIntoView({behavior: "smooth"});
+    }
+
+    function closeDetail() {
+      document.getElementById('service-detail').style.display = 'none';
+    }
+
+    /* -------- Modal gallery -------- */
+    const galleryImages = document.querySelectorAll('.gallery-container img');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-content');
+    const modalCaption = document.getElementById('modal-caption');
+    const modalClose = document.getElementById('modal-close');
+    const modalPrev = document.getElementById('modal-prev');
+    const modalNext = document.getElementById('modal-next');
+
+    let currentIndex = 0;
+
+    function openModal(index) {
+      currentIndex = index;
+      modal.style.display = 'block';
+      updateModal();
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function updateModal() {
+      const img = galleryImages[currentIndex];
+      modalImg.src = img.src;
+      modalImg.alt = img.alt;
+      modalCaption.textContent = img.alt;
+    }
+
+    function changeImage(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = galleryImages.length -1;
+      else if (currentIndex >= galleryImages.length) currentIndex = 0;
+      updateModal();
+    }
+
+    // Close modal on clicking outside image
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target === modalClose) {
+        closeModal();
+      }
+    });
+
+    // Keyboard navigation for modal
+    document.addEventListener('keydown', (e) => {
+      if (modal.style.display === 'block') {
+        if (e.key === 'ArrowRight') changeImage(1);
+        else if (e.key === 'ArrowLeft') changeImage(-1);
+        else if (e.key === 'Escape') closeModal();
+      }
+    });
+
+    /* -------- Mobile menu toggle -------- */
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const overlay = document.getElementById('overlay');
+
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      menuToggle.classList.toggle('open');
+      mobileNav.classList.toggle('show');
+      mobileNav.setAttribute('aria-hidden', expanded);
+      overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', () => {
+      menuToggle.setAttribute('aria-expanded', false);
+      menuToggle.classList.remove('open');
+      mobileNav.classList.remove('show');
+      mobileNav.setAttribute('aria-hidden', true);
+      overlay.classList.remove('show');
+    });
+
+  </script>
+
+</body>
+</html>
