@@ -11,11 +11,48 @@
       background: url('background.jpg') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
-      padding: 0 20px 40px;
+      padding: 0;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       min-height: 100vh;
     }
+
+    /* Header */
+    header {
+      background: transparent;
+      padding: 40px 20px 10px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      color: white;
+    }
+    .logo {
+      width: 300px;
+      height: auto;
+      margin: 0 auto 12px;
+      display: block;
+    }
+    header h1 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    /* Desktop nav */
+    #desktop-nav {
+      margin-top: 10px;
+      text-align: center;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #desktop-nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    /* Content */
     .content-container {
       max-width: 900px;
       background: rgba(255, 255, 255, 0.95);
@@ -23,20 +60,6 @@
       padding: 30px 40px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(0,0,0,0.15);
-    }
-    header {
-      text-align: center;
-      padding: 40px 20px 10px;
-      color: white;
-    }
-    header h1 { color: white; }
-    .logo {
-      width: 300px;
-      height: auto;
-      margin: 0 auto 12px;
-      display: block;
-      position: relative;
-      z-index: 2;
     }
     h1, h2 { color: #1d3557; margin-bottom: 20px; }
     p, li { margin-bottom: 14px; }
@@ -49,11 +72,6 @@
       margin-top: 4px;
       font-size: 14px;
       cursor: pointer;
-      color: #1d3557;
-      text-decoration: underline;
-    }
-    .pdf-link:hover {
-      color: #16324a;
     }
     .back-link {
       display: inline-block;
@@ -104,6 +122,84 @@
       margin-bottom: 8px;
     }
     .close:hover { color: black; }
+
+    /* Hamburger menu */
+    .menu-toggle {
+      display: none;
+      width: 34px;
+      height: 24px;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      z-index: 1003;
+    }
+    .menu-toggle span {
+      background: white;
+      display: block;
+      height: 3px;
+      margin: 5px 0;
+      border-radius: 2px;
+    }
+    #mobile-nav {
+      display: none;
+      overflow: hidden;
+      max-height: 0;
+      flex-direction: column;
+      background: rgba(0,0,0,0.92);
+      position: absolute;
+      top: 68px;
+      right: 20px;
+      padding: 0;
+      border-radius: 8px;
+      width: 220px;
+      text-align: center;
+      z-index: 1002;
+    }
+    #mobile-nav a {
+      display: block;
+      padding: 12px;
+      margin: 6px 8px;
+      background: transparent;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    #mobile-nav.show {
+      max-height: 480px;
+      padding: 10px;
+    }
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.45);
+      z-index: 1001;
+      opacity: 0;
+    }
+    #overlay.show { display: block; opacity: 1; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #desktop-nav { display: none; }
+      .menu-toggle { display: block; }
+      .logo { width: 180px; }
+      .content-container { margin: 20px auto; padding: 20px; }
+      h2 { font-size: 20px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .logo { width: 150px; }
+      .content-container { padding: 15px; }
+      h1 { font-size: 20px; }
+      h2 { font-size: 18px; }
+      p, li { font-size: 14px; }
+      .modal-content {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -111,7 +207,32 @@
 <header>
   <img src="logo.png" alt="RMK Gradba Logo" class="logo" />
   <h1>Company Profile</h1>
+
+  <!-- Desktop nav -->
+  <nav id="desktop-nav">
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#gallery">Gallery</a>
+    <a href="company-profile.html">Company Profile</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <!-- Hamburger menu -->
+  <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Mobile nav -->
+  <nav id="mobile-nav" aria-hidden="true">
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#gallery">Gallery</a>
+    <a href="company-profile.html">Company Profile</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
 </header>
+
+<div id="overlay"></div>
 
 <div class="content-container">
   <section>
@@ -130,49 +251,22 @@
   <section>
     <h2>Key Projects Executed</h2>
     <ul>
-      <li>
-        <strong>Urban Drainage Upgrade - Skopje</strong>: Designed and installed a stormwater drainage system covering 5 km of urban streets, preventing flooding and improving water management.<br>
-        <span class="pdf-link" data-pdf="pdfs/urban_drainage_upgrade.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        <strong>Residential Sewer Network - Ohrid</strong>: Constructed and maintained sanitary sewage pipelines serving 500+ households, ensuring hygienic wastewater disposal.<br>
-        <span class="pdf-link" data-pdf="pdfs/residential_sewer_network.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        <strong>Concrete Block Paving - Tetovo City Center</strong>: Delivered over 10,000 sqm of durable and aesthetic concrete block paving enhancing pedestrian zones and plazas.<br>
-        <span class="pdf-link" data-pdf="pdfs/concrete_block_paving.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        <strong>Main Street Reconstruction - Bitola</strong>: Full street reconstruction including excavation, base preparation, and asphalt paving over 2 km of a major urban artery.<br>
-        <span class="pdf-link" data-pdf="pdfs/main_street_reconstruction.pdf">📄 View PDF</span>
-      </li>
+      <li><strong>Urban Drainage Upgrade - Skopje</strong>: Designed and installed a stormwater drainage system covering 5 km of urban streets.</li>
+      <li><strong>Residential Sewer Network - Ohrid</strong>: Constructed and maintained sanitary sewage pipelines serving 500+ households.</li>
+      <li><strong>Concrete Block Paving - Tetovo City Center</strong>: Delivered over 10,000 sqm of durable paving enhancing pedestrian zones.</li>
+      <li><strong>Main Street Reconstruction - Bitola</strong>: Full street reconstruction including excavation and asphalt paving over 2 km.</li>
     </ul>
   </section>
 
   <section>
     <h2>Documentation of Engineering and Execution Capacities</h2>
-    <p>RMK Gradba holds the following certifications and documentation that underpin our technical expertise and project execution capabilities:</p>
+    <p>RMK Gradba holds the following certifications and documentation:</p>
     <ul class="docs-list">
-      <li>
-        ISO 9001:2015 Quality Management System Certification.<br>
-        <span class="pdf-link" data-pdf="pdfs/iso9001.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        Licensed engineering professionals on staff, specializing in civil and infrastructure projects.<br>
-        <span class="pdf-link" data-pdf="pdfs/licensed_engineers.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        State-of-the-art machinery and equipment for excavation, paving, and pipeline installation.<br>
-        <span class="pdf-link" data-pdf="pdfs/machinery_equipment.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        Robust project management methodologies ensuring compliance with timelines and budget.<br>
-        <span class="pdf-link" data-pdf="pdfs/project_management.pdf">📄 View PDF</span>
-      </li>
-      <li>
-        Safety and environmental compliance documentation aligned with local and international standards.<br>
-        <span class="pdf-link" data-pdf="pdfs/safety_environment.pdf">📄 View PDF</span>
-      </li>
+      <li>ISO 9001:2015 Certification.<br><span class="pdf-link" data-pdf="pdfs/iso9001.pdf">📄 View PDF</span></li>
+      <li>Licensed engineering professionals.<br><span class="pdf-link" data-pdf="pdfs/licensed_engineers.pdf">📄 View PDF</span></li>
+      <li>State-of-the-art machinery.<br><span class="pdf-link" data-pdf="pdfs/machinery_equipment.pdf">📄 View PDF</span></li>
+      <li>Project management methodologies.<br><span class="pdf-link" data-pdf="pdfs/project_management.pdf">📄 View PDF</span></li>
+      <li>Safety and environmental compliance.<br><span class="pdf-link" data-pdf="pdfs/safety_environment.pdf">📄 View PDF</span></li>
     </ul>
   </section>
 
@@ -188,28 +282,49 @@
 </div>
 
 <script>
-  const modal = document.getElementById("pdfModal");
-  const iframe = modal.querySelector("iframe");
-  const closeBtn = modal.querySelector(".close");
+  // PDF modal
+  const pdfModal = document.getElementById("pdfModal");
+  const iframe = pdfModal.querySelector("iframe");
+  const closeBtn = pdfModal.querySelector(".close");
 
   document.querySelectorAll(".pdf-link").forEach(link => {
     link.addEventListener("click", () => {
       iframe.src = link.getAttribute("data-pdf");
-      modal.style.display = "block";
+      pdfModal.style.display = "block";
     });
   });
 
   closeBtn.onclick = () => {
-    modal.style.display = "none";
+    pdfModal.style.display = "none";
     iframe.src = "";
   };
 
   window.onclick = (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
+    if (event.target === pdfModal) {
+      pdfModal.style.display = "none";
       iframe.src = "";
     }
   };
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  const overlay = document.getElementById('overlay');
+
+  menuToggle.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+    menuToggle.setAttribute('aria-expanded', !expanded);
+    menuToggle.classList.toggle('open');
+    mobileNav.classList.toggle('show');
+    overlay.classList.toggle('show');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuToggle.setAttribute('aria-expanded', false);
+    menuToggle.classList.remove('open');
+    mobileNav.classList.remove('show');
+    overlay.classList.remove('show');
+  });
 </script>
 
 </body>
