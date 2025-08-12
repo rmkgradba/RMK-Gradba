@@ -12,8 +12,8 @@
       background-size: cover;
       font-family: Arial, sans-serif;
       color: #333;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
     header {
@@ -60,6 +60,10 @@
       text-decoration: none;
       margin: 0 15px;
       font-weight: bold;
+      cursor: pointer;
+    }
+    #desktop-nav a.active {
+      text-decoration: underline;
     }
 
     /* Content sections */
@@ -134,6 +138,8 @@
       cursor: pointer;
       font-size: 14px;
     }
+
+    footer { text-align: center; background-color: #1d3557; color: white; padding: 20px; margin-top: 10px; }
 
     /* Gallery */
     #gallery { max-width: 1000px; margin: 20px auto; text-align: left; }
@@ -238,6 +244,72 @@
     }
     #overlay.show { display: block; opacity: 1; }
 
+    /* Company Profile (hidden by default) */
+    #company-profile {
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      padding: 30px 40px;
+      max-width: 900px;
+      margin: 20px auto;
+      color: #1d3557;
+    }
+
+    #company-profile h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #company-profile ul {
+      margin-left: 20px;
+    }
+
+    .pdf-link {
+      color: #1d3557;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 8px;
+      text-decoration: underline;
+    }
+
+    /* PDF Modal for Company Profile PDFs */
+    #pdfModal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      padding-top: 40px;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.85);
+    }
+    #pdfModal .modal-content {
+      margin: auto;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 1000px;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+    }
+    #pdfModal iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+    #pdfModal .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      align-self: flex-end;
+      margin-bottom: 8px;
+    }
+    #pdfModal .close:hover { color: black; }
+
   </style>
 </head>
 <body>
@@ -251,11 +323,11 @@
 
     <!-- Desktop nav -->
     <nav id="desktop-nav">
-      <a href="#about">About Us</a>
-      <a href="#services">Services</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#company-profile">Company Profile</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a id="company-profile-link" class="nav-link">Company Profile</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </nav>
 
     <!-- Hamburger (mobile) -->
@@ -267,11 +339,11 @@
 
     <!-- Mobile dropdown nav -->
     <nav id="mobile-nav" aria-hidden="true">
-      <a href="#about">About Us</a>
-      <a href="#services">Services</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#company-profile">Company Profile</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a id="company-profile-link-mobile" class="nav-link">Company Profile</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </nav>
   </header>
 
@@ -338,64 +410,97 @@
       <img src="gallery4.jpg" alt="Gallery Image 4" onclick="openModal(3)" />
       <img src="gallery5.jpg" alt="Gallery Image 5" onclick="openModal(4)" />
       <img src="gallery6.jpg" alt="Gallery Image 6" onclick="openModal(5)" />
-      <img src="gallery7.jpg" alt="Gallery Image 7" onclick="openModal(6)" />
-      <img src="gallery8.jpg" alt="Gallery Image 8" onclick="openModal(7)" />
-      <img src="gallery9.jpg" alt="Gallery Image 9" onclick="openModal(8)" />
-      <img src="gallery10.jpg" alt="Gallery Image 10" onclick="openModal(9)" />
-      <img src="gallery11.jpg" alt="Gallery Image 11" onclick="openModal(10)" />
-      <img src="gallery12.jpg" alt="Gallery Image 12" onclick="openModal(11)" />
-      <img src="gallery13.jpg" alt="Gallery Image 13" onclick="openModal(12)" />
-      <img src="gallery14.jpg" alt="Gallery Image 14" onclick="openModal(13)" />
-      <img src="gallery15.jpg" alt="Gallery Image 15" onclick="openModal(14)" />
     </div>
   </section>
 
-  <!-- NEW Company Profile Section Embedded -->
+  <!-- Company Profile section hidden by default -->
   <section id="company-profile">
-    <h2>Core Services and Capabilities</h2>
-    <p>RMK Gradba specializes in a broad range of low-rise construction services tailored to meet diverse infrastructure needs. Our key capabilities include:</p>
-    <ul>
-      <li>Design and installation of stormwater drainage and sanitary sewage systems.</li>
-      <li>High-quality concrete block paving for streets and sidewalks.</li>
-      <li>Comprehensive street construction and asphalt paving.</li>
-      <li>Installation and maintenance of water supply networks.</li>
-      <li>Additional civil works such as sidewalks, curbs, and retaining walls.</li>
-      <li>Project management ensuring timely and efficient execution.</li>
-    </ul>
+    <h2>Company Profile</h2>
+    <p>Below you will find detailed information about RMK Gradba's core services, key projects, and documentation.</p>
 
-    <h2>Key Projects Executed</h2>
-    <ul>
-      <li><strong>Urban Drainage Upgrade - Skopje</strong>: Designed and installed a stormwater drainage system covering 5 km of urban streets.</li>
-      <li><strong>Residential Sewer Network - Ohrid</strong>: Constructed and maintained sanitary sewage pipelines serving 500+ households.</li>
-      <li><strong>Concrete Block Paving - Tetovo City Center</strong>: Delivered over 10,000 sqm of durable paving enhancing pedestrian zones.</li>
-      <li><strong>Main Street Reconstruction - Bitola</strong>: Full street reconstruction including excavation and asphalt paving over 2 km.</li>
-    </ul>
+    <section>
+      <h3>Core Services and Capabilities</h3>
+      <p>RMK Gradba specializes in a broad range of low-rise construction services tailored to meet diverse infrastructure needs. Our key capabilities include:</p>
+      <ul>
+        <li>Design and installation of stormwater drainage and sanitary sewage systems.</li>
+        <li>High-quality concrete block paving for streets and sidewalks.</li>
+        <li>Comprehensive street construction and asphalt paving.</li>
+        <li>Installation and maintenance of water supply networks.</li>
+        <li>Additional civil works such as sidewalks, curbs, and retaining walls.</li>
+        <li>Project management ensuring timely and efficient execution.</li>
+      </ul>
+    </section>
 
-    <h2>Documentation of Engineering and Execution Capacities</h2>
-    <p>RMK Gradba holds the following certifications and documentation:</p>
-    <ul>
-      <li>ISO 9001:2015 Certification.</li>
-      <li>Licensed engineering professionals.</li>
-      <li>State-of-the-art machinery.</li>
-      <li>Project management methodologies.</li>
-      <li>Safety and environmental compliance.</li>
-    </ul>
+    <section>
+      <h3>Key Projects Executed</h3>
+      <ul>
+        <li>
+          <strong>Urban Drainage Upgrade - Skopje</strong>: Designed and installed a stormwater drainage system covering 5 km of urban streets, preventing flooding and improving water management.
+          <span class="pdf-link" data-pdf="pdfs/urban_drainage_upgrade.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          <strong>Residential Sewer Network - Ohrid</strong>: Constructed and maintained sanitary sewage pipelines serving 500+ households, ensuring hygienic wastewater disposal.
+          <span class="pdf-link" data-pdf="pdfs/residential_sewer_network.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          <strong>Concrete Block Paving - Tetovo City Center</strong>: Delivered over 10,000 sqm of durable and aesthetic concrete block paving enhancing pedestrian zones and plazas.
+          <span class="pdf-link" data-pdf="pdfs/concrete_block_paving.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          <strong>Main Street Reconstruction - Bitola</strong>: Full street reconstruction including excavation, base preparation, and asphalt paving over 2 km of a major urban artery.
+          <span class="pdf-link" data-pdf="pdfs/main_street_reconstruction.pdf">📄 View PDF</span>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Documentation of Engineering and Execution Capacities</h3>
+      <p>RMK Gradba holds the following certifications and documentation that underpin our technical expertise and project execution capabilities:</p>
+      <ul>
+        <li>
+          ISO 9001:2015 Quality Management System Certification.<br>
+          <span class="pdf-link" data-pdf="pdfs/iso9001.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          Licensed engineering professionals on staff, specializing in civil and infrastructure projects.<br>
+          <span class="pdf-link" data-pdf="pdfs/licensed_engineers.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          State-of-the-art machinery and equipment for excavation, paving, and pipeline installation.<br>
+          <span class="pdf-link" data-pdf="pdfs/machinery_equipment.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          Robust project management methodologies ensuring compliance with timelines and budget.<br>
+          <span class="pdf-link" data-pdf="pdfs/project_management.pdf">📄 View PDF</span>
+        </li>
+        <li>
+          Safety and environmental compliance documentation aligned with local and international standards.<br>
+          <span class="pdf-link" data-pdf="pdfs/safety_environment.pdf">📄 View PDF</span>
+        </li>
+      </ul>
+    </section>
   </section>
 
   <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: info@rmkgradba.com</p>
-    <p>Phone: +389 70 123 456</p>
-    <p>Address: Skopje, North Macedonia</p>
+    <h2>Contact</h2>
+    <p>Email: info@rmkgradba.com<br>Phone: +971 55 123 4567</p>
   </section>
 
-  <!-- Modal for Gallery -->
+  <!-- PDF Modal -->
+  <div id="pdfModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <iframe src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Gallery Modal -->
   <div id="modal">
-    <span id="modal-close" aria-label="Close modal">&times;</span>
-    <img id="modal-content" alt="" />
+    <span id="modal-close">&times;</span>
+    <span id="modal-prev" class="modal-arrow">&#10094;</span>
+    <span id="modal-next" class="modal-arrow">&#10095;</span>
+    <img id="modal-content" src="" alt="">
     <div id="modal-caption"></div>
-    <span id="modal-prev" class="modal-arrow" aria-label="Previous image">&#10094;</span>
-    <span id="modal-next" class="modal-arrow" aria-label="Next image">&#10095;</span>
   </div>
 
 <script>
@@ -405,7 +510,7 @@
   const overlay = document.getElementById('overlay');
 
   menuToggle.addEventListener('click', () => {
-    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', !expanded);
     menuToggle.classList.toggle('open');
     mobileNav.classList.toggle('show');
@@ -413,128 +518,225 @@
   });
 
   overlay.addEventListener('click', () => {
-    menuToggle.setAttribute('aria-expanded', false);
     menuToggle.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', false);
     mobileNav.classList.remove('show');
     overlay.classList.remove('show');
   });
 
-  // Service details data
-  const services = {
+  // Smooth scrolling for nav links with hash href
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      // close mobile nav if open
+      menuToggle.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', false);
+      mobileNav.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+  });
+
+  // Show/hide Company Profile content on nav click
+  const companyProfileLink = document.getElementById('company-profile-link');
+  const companyProfileLinkMobile = document.getElementById('company-profile-link-mobile');
+  const companyProfileSection = document.getElementById('company-profile');
+
+  function showCompanyProfile() {
+    // Hide other sections to focus user on company profile or optionally scroll to it
+    // Here, let's hide About, Services, Gallery, Contact
+    document.getElementById('about').style.display = 'none';
+    document.getElementById('services').style.display = 'none';
+    document.getElementById('gallery').style.display = 'none';
+    document.getElementById('contact').style.display = 'none';
+
+    // Show Company Profile
+    companyProfileSection.style.display = 'block';
+
+    // Scroll into view
+    companyProfileSection.scrollIntoView({behavior: 'smooth'});
+
+    // Update nav active states
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    companyProfileLink.classList.add('active');
+    companyProfileLinkMobile.classList.add('active');
+  }
+
+  function showOtherSections() {
+    document.getElementById('about').style.display = 'block';
+    document.getElementById('services').style.display = 'block';
+    document.getElementById('gallery').style.display = 'block';
+    document.getElementById('contact').style.display = 'block';
+
+    companyProfileSection.style.display = 'none';
+
+    // Remove active class from company profile nav links
+    companyProfileLink.classList.remove('active');
+    companyProfileLinkMobile.classList.remove('active');
+  }
+
+  companyProfileLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showCompanyProfile();
+  });
+  companyProfileLinkMobile.addEventListener('click', (e) => {
+    e.preventDefault();
+    showCompanyProfile();
+    // close mobile nav on click
+    menuToggle.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', false);
+    mobileNav.classList.remove('show');
+    overlay.classList.remove('show');
+  });
+
+  // When clicking other nav links, show all sections (hide company profile)
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', () => {
+      showOtherSections();
+    });
+  });
+
+  // Services detail content data
+  const servicesData = {
     stormwater: {
       title: "Stormwater Drainage Systems",
-      text: "We design and install efficient stormwater drainage systems to effectively manage rainwater, prevent flooding, and protect urban infrastructure.",
+      text: "Design and installation of efficient drainage systems to manage rainwater and prevent flooding.",
       images: ["stormwater1.jpg", "stormwater2.jpg"]
     },
     sanitary: {
       title: "Sanitary Sewage Systems",
-      text: "Our team constructs and repairs sanitary sewer lines to ensure safe and reliable wastewater management for residential and commercial clients.",
+      text: "Construction and repair of sanitary sewer lines for residential, commercial, and municipal use.",
       images: ["sanitary1.jpg", "sanitary2.jpg"]
     },
     concrete: {
       title: "Concrete Block Paving",
-      text: "We provide high-quality concrete block paving services for streets and sidewalks, enhancing durability and aesthetics.",
+      text: "Street paving with high-quality concrete blocks for long-lasting and aesthetic urban design.",
       images: ["concrete1.jpg", "concrete2.jpg"]
     },
     street: {
       title: "Street Construction & Asphalt",
-      text: "Complete street construction services including excavation, base preparation, and expert asphalt paving for long-lasting roads.",
+      text: "Complete street construction including excavation, base prep, and professional asphalt paving.",
       images: ["street1.jpg", "street2.jpg"]
     },
     water: {
       title: "Water Supply Networks",
-      text: "Installation and maintenance of reliable water supply systems tailored for urban and rural developments.",
+      text: "Installation of reliable water distribution systems for urban and rural developments.",
       images: ["water1.jpg", "water2.jpg"]
     },
     other: {
       title: "Other Low-Rise Works",
-      text: "Additional civil works including sidewalks, curbs, retaining walls, and related infrastructure projects.",
+      text: "Comprehensive civil works including sidewalks, curbs, retaining walls, and related infrastructure.",
       images: ["other1.jpg", "other2.jpg"]
     }
   };
 
-  function showService(key) {
-    const detail = document.getElementById("service-detail");
-    const titleEl = document.getElementById("detail-title");
-    const textEl = document.getElementById("detail-text");
-    const imagesEl = document.getElementById("detail-images");
+  // Show service details function
+  function showService(serviceKey) {
+    const detail = document.getElementById('service-detail');
+    const title = document.getElementById('detail-title');
+    const text = document.getElementById('detail-text');
+    const imagesContainer = document.getElementById('detail-images');
 
-    const service = services[key];
-    if (!service) return;
-
-    titleEl.textContent = service.title;
-    textEl.textContent = service.text;
-
-    imagesEl.innerHTML = "";
-    service.images.forEach(src => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = service.title;
-      imagesEl.appendChild(img);
-    });
-
-    detail.style.display = "block";
-    detail.scrollIntoView({behavior: "smooth"});
+    if (servicesData[serviceKey]) {
+      title.textContent = servicesData[serviceKey].title;
+      text.textContent = servicesData[serviceKey].text;
+      imagesContainer.innerHTML = '';
+      servicesData[serviceKey].images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        imagesContainer.appendChild(img);
+      });
+      detail.style.display = 'block';
+      detail.scrollIntoView({behavior: 'smooth'});
+    }
   }
 
   function closeDetail() {
-    document.getElementById("service-detail").style.display = "none";
+    document.getElementById('service-detail').style.display = 'none';
   }
 
   // Gallery modal
-  const modal = document.getElementById("modal");
-  const modalImg = document.getElementById("modal-content");
-  const modalCaption = document.getElementById("modal-caption");
-  const modalClose = document.getElementById("modal-close");
-  const modalPrev = document.getElementById("modal-prev");
-  const modalNext = document.getElementById("modal-next");
-  const galleryImages = document.querySelectorAll(".gallery-container img");
+  const galleryImages = [
+    { src: "gallery1.jpg", alt: "Gallery Image 1" },
+    { src: "gallery2.jpg", alt: "Gallery Image 2" },
+    { src: "gallery3.jpg", alt: "Gallery Image 3" },
+    { src: "gallery4.jpg", alt: "Gallery Image 4" },
+    { src: "gallery5.jpg", alt: "Gallery Image 5" },
+    { src: "gallery6.jpg", alt: "Gallery Image 6" },
+  ];
 
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-content');
+  const modalCaption = document.getElementById('modal-caption');
+  const modalClose = document.getElementById('modal-close');
+  const modalPrev = document.getElementById('modal-prev');
+  const modalNext = document.getElementById('modal-next');
   let currentIndex = 0;
 
   function openModal(index) {
     currentIndex = index;
-    showModalImage(currentIndex);
     modal.style.display = "block";
-    document.body.style.overflow = 'hidden'; // Prevent background scroll
+    modalImg.src = galleryImages[index].src;
+    modalImg.alt = galleryImages[index].alt;
+    modalCaption.textContent = galleryImages[index].alt;
   }
 
   function closeModal() {
     modal.style.display = "none";
-    document.body.style.overflow = 'auto';
   }
 
-  function showModalImage(index) {
-    if (index < 0) currentIndex = galleryImages.length - 1;
-    else if (index >= galleryImages.length) currentIndex = 0;
-    else currentIndex = index;
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    openModal(currentIndex);
+  }
 
-    const img = galleryImages[currentIndex];
-    modalImg.src = img.src;
-    modalCaption.textContent = img.alt;
+  function showNext() {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    openModal(currentIndex);
   }
 
   modalClose.onclick = closeModal;
+  modalPrev.onclick = showPrev;
+  modalNext.onclick = showNext;
 
-  modalPrev.onclick = () => { showModalImage(currentIndex - 1); }
-  modalNext.onclick = () => { showModalImage(currentIndex + 1); }
-
-  window.onclick = event => {
-    if (event.target === modal) closeModal();
-  };
-
-  // Keyboard navigation for gallery modal
-  window.addEventListener('keydown', e => {
+  // Keyboard support for gallery modal
+  window.addEventListener('keydown', (e) => {
     if (modal.style.display === "block") {
-      if (e.key === "ArrowLeft") {
-        showModalImage(currentIndex - 1);
-      } else if (e.key === "ArrowRight") {
-        showModalImage(currentIndex + 1);
-      } else if (e.key === "Escape") {
-        closeModal();
-      }
+      if (e.key === "ArrowLeft") showPrev();
+      else if (e.key === "ArrowRight") showNext();
+      else if (e.key === "Escape") closeModal();
     }
   });
+
+  // Company Profile PDF Modal
+  const pdfModal = document.getElementById('pdfModal');
+  const pdfIframe = pdfModal.querySelector('iframe');
+  const pdfClose = pdfModal.querySelector('.close');
+
+  document.querySelectorAll('.pdf-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pdfSrc = link.getAttribute('data-pdf');
+      pdfIframe.src = pdfSrc;
+      pdfModal.style.display = 'block';
+    });
+  });
+
+  pdfClose.onclick = () => {
+    pdfModal.style.display = 'none';
+    pdfIframe.src = '';
+  };
+
+  window.onclick = (event) => {
+    if (event.target === pdfModal) {
+      pdfModal.style.display = 'none';
+      pdfIframe.src = '';
+    }
+  };
+
 </script>
 
 </body>
