@@ -250,18 +250,24 @@ line-height: 1.5;
     }
     #overlay.show { display: block; opacity: 1; }
 
-    /* Company Profile (hidden by default) */
-    #company-profile {
-      display: none;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.15);
-      padding: 30px 40px;
-      max-width: 900px;
-      margin: 20px auto;
-      color: #1d3557;
-line-height: 1.5;
-    }
+   #company-profile {
+  display: none;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  padding: 30px 40px;
+  max-width: 900px;
+  margin: 20px auto;
+  color: #1d3557;
+  line-height: 1.5;
+}
+
+/* Mobile (≤768px): always visible in the scroll flow */
+@media (max-width: 768px) {
+  #company-profile {
+    display: block !important;
+  }
+}
 
     #company-profile h2 {
       text-align: center;
@@ -600,19 +606,28 @@ Management System.<br>
     companyProfileLinkMobile.classList.remove('active');
   }
 
-  companyProfileLink.addEventListener('click', (e) => {
-    e.preventDefault();
+companyProfileLink.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  if (window.innerWidth > 768) {
+    // Desktop → show/hide behavior
     showCompanyProfile();
-  });
-  companyProfileLinkMobile.addEventListener('click', (e) => {
-    e.preventDefault();
-    showCompanyProfile();
-    // close mobile nav on click
-    menuToggle.classList.remove('open');
-    menuToggle.setAttribute('aria-expanded', false);
-    mobileNav.classList.remove('show');
-    overlay.classList.remove('show');
-  });
+  } else {
+    // Mobile → just scroll (section already visible)
+    companyProfileSection.scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+companyProfileLinkMobile.addEventListener('click', (e) => {
+  e.preventDefault();
+  companyProfileSection.scrollIntoView({ behavior: 'smooth' });
+
+  // Close mobile nav after clicking
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', false);
+  mobileNav.classList.remove('show');
+  overlay.classList.remove('show');
+});
 
   // When clicking other nav links, show all sections (hide company profile)
   document.querySelectorAll('nav a[href^="#"]').forEach(link => {
