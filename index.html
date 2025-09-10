@@ -757,31 +757,57 @@ companyProfileLinkMobile.addEventListener('click', (e) => {
     }
   });
 
-  // Company Profile PDF Modal
-  const pdfModal = document.getElementById('pdfModal');
-  const pdfIframe = pdfModal.querySelector('iframe');
-  const pdfClose = pdfModal.querySelector('.close');
+ // Company Profile PDF Modal (desktop: native preview, mobile: Google Docs viewer)
+const pdfModal = document.getElementById('pdfModal');
+const pdfIframe = pdfModal.querySelector('iframe');
+const pdfClose = pdfModal.querySelector('.close');
 
-  document.querySelectorAll('.pdf-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const pdfSrc = link.getAttribute('data-pdf');
-      pdfIframe.src = pdfSrc;
-      pdfModal.style.display = 'block';
-    });
+// create a download/open link inside modal (one-time)
+let pdfDownloadLink = pdfModal.querySelector('.modal-content .pdf-download');
+if (!pdfDownloadLink) {
+  pdfDownloadLink = document.createElement('a');
+  pdfDownloadLink.className = 'pdf-download';
+  pdfDownloadLink.style.marginTop = '10px';
+  pdfDownloadLink.style.display = 'block';
+  pdfDownloadLink.style.textAlign = 'center';
+  pdfDownloadLink.target = '_blank';
+  pdfModal.querySelector('.modal-content').appendChild(pdfDownloadLink);
+}
+
+document.querySelectorAll('.pdf-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const pdfSrc = link.getAttribute('data-pdf');
+    const absolutePdfUrl = new URL(pdfSrc, window.location.href).href;
+
+    if (window.innerWidth <= 768) {
+      // Mobile: Google Docs viewer
+      const viewerUrl = 'https://docs.google.com/gview?url=' + encodeURIComponent(absolutePdfUrl) + '&embedded=true';
+      pdfIframe.src = viewerUrl;
+    } else {
+      // Desktop: native browser viewer
+      pdfIframe.src = absolutePdfUrl;
+    }
+
+    // update download link
+    pdfDownloadLink.href = absolutePdfUrl;
+    pdfDownloadLink.textContent = 'Open / Download PDF';
+    pdfModal.style.display = 'block';
   });
+});
 
-  pdfClose.onclick = () => {
+pdfClose.onclick = () => {
+  pdfModal.style.display = 'none';
+  pdfIframe.src = '';
+};
+
+window.onclick = (event) => {
+  if (event.target === pdfModal) {
     pdfModal.style.display = 'none';
     pdfIframe.src = '';
-  };
-
-  window.onclick = (event) => {
-    if (event.target === pdfModal) {
-      pdfModal.style.display = 'none';
-      pdfIframe.src = '';
-    }
-  };
+  }
+};
 
 </script>
 
